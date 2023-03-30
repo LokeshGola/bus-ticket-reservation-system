@@ -10,6 +10,9 @@ import com.masaischool.dao.BusDAO;
 import com.masaischool.dao.BusDAOimpl;
 import com.masaischool.dto.BusDTO;
 import com.masaischool.dto.BusDTOimpl;
+import com.masaischool.dto.ScheduleDTO;
+import com.masaischool.dto.ScheduleDTOimpl;
+import com.masaischool.exception.NoRecordFoundException;
 import com.masaischool.exception.SomethingWentWrongException;
 
 public class BusUI {
@@ -50,13 +53,14 @@ public class BusUI {
 		LocalTime arrival_time= LocalTime.parse(sc.next());
 		LocalDateTime arrival = LocalDateTime.of(arrival_date, arrival_time);
 		
-		BusDTO busDto = new BusDTOimpl(busId, busName, busType, busNumber, totalSeats, source, destination, departure, arrival );
+		ScheduleDTO schDto = new ScheduleDTOimpl(source, destination, departure, arrival, null) ;
+		BusDTO busDto = new BusDTOimpl(busId, busName, busType, busNumber, totalSeats );
 		
 		BusDAO busDao = new BusDAOimpl();
 		try {
-			busDao.addBus(busDto);
+			busDao.addBus(busDto, schDto);
 			System.out.println("Bus added successfully.");
-		} catch (SomethingWentWrongException e) {
+		} catch (SomethingWentWrongException | NoRecordFoundException e) {
 			System.out.println(e.getMessage());
 //			e.printStackTrace();
 		}
@@ -76,7 +80,7 @@ public class BusUI {
 		System.out.println("Entre total seats:");
 		int totalSeats = sc.nextInt();
 		
-		BusDTO busDto = new BusDTOimpl(busId, busName, busType, null, totalSeats, null, null, null, null);
+		BusDTO busDto = new BusDTOimpl(busId, busName, busType, null, totalSeats);
 		
 		BusDAO busDao = new BusDAOimpl();
 		try {
