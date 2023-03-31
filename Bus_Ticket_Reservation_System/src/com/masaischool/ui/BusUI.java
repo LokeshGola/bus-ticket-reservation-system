@@ -4,10 +4,14 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Scanner;
 
+import com.masaischool.dao.BookingDAO;
+import com.masaischool.dao.BookingDAOimpl;
 import com.masaischool.dao.BusDAO;
 import com.masaischool.dao.BusDAOimpl;
+import com.masaischool.dto.BookingDTO;
 import com.masaischool.dto.BusDTO;
 import com.masaischool.dto.BusDTOimpl;
 import com.masaischool.dto.ScheduleDTO;
@@ -104,7 +108,56 @@ public class BusUI {
 			//e.printStackTrace();
 		}
 	}
-	public static void viewAllBookings(Scanner sc) {
+	public static void viewAllBookings() {
+		BookingDAO bookDao = new  BookingDAOimpl();
+		try {
+			List<BookingDTO> list = bookDao.getBookingList();
+			list.forEach(System.out::println);
+		} catch (SomethingWentWrongException | NoRecordFoundException e) {
+			System.out.println(e.getMessage());
+//			e.printStackTrace();
+		}
+	}
+	public static void viewBookingsForDateRange(Scanner sc) {
+		System.out.println("Entre start date in yyyy-mm-dd format ");
+		String startDate = sc.next();
 		
+		System.out.println("Entre end date in yyyy-mm-dd format ");
+		String endDate = sc.next();
+		
+		BookingDAO bookDao = new  BookingDAOimpl();
+		try {
+			List<BookingDTO> list = bookDao.getBookingListForDateRange(startDate, endDate);
+			list.forEach(System.out::println);
+		} catch (SomethingWentWrongException | NoRecordFoundException e) {
+			System.out.println(e.getMessage());
+//			e.printStackTrace();
+		}
+	}
+	public static void viewBookingsByBusName(Scanner sc) {
+		System.out.println("Entre bus name ");
+		String busName = sc.next();
+		
+		BookingDAO bookDao = new  BookingDAOimpl();
+		try {
+			List<BookingDTO> list = bookDao.getBookingListByBusName(busName);
+			list.forEach(System.out::println);
+		} catch (SomethingWentWrongException | NoRecordFoundException e) {
+			System.out.println(e.getMessage());
+//			e.printStackTrace();
+		}
+	}
+	public static void viewBookingsByMobileNumber(Scanner sc) {
+		System.out.println("Entre mobile number ");
+		long mobile = sc.nextLong();
+		
+		BookingDAO bookDao = new  BookingDAOimpl();
+		try {
+			List<BookingDTO> list = bookDao.getBookingListByMobileNumber(mobile);
+			list.forEach(System.out::println);
+		} catch (SomethingWentWrongException | NoRecordFoundException e) {
+			System.out.println(e.getMessage());
+//			e.printStackTrace();
+		}
 	}
 }

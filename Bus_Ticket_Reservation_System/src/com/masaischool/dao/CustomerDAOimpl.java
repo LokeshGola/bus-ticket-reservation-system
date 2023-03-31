@@ -70,4 +70,51 @@ public class CustomerDAOimpl implements CustomerDAO{
 			}
 		}
 	}
+
+	@Override
+	public void updateCustomer(CustomerDTO cusDto) throws SomethingWentWrongException {
+		Connection con = null;	 
+		try {
+			con =DBUtils.getConnectionToDatabase();
+			String query= "INSERT INTO customer ( first_name, last_name, address, mobile ) VALUES (?, ?, ?, ? ) ";
+			PreparedStatement ps = con.prepareStatement(query); 
+			ps.setString(1, cusDto.getFirstname());
+			ps.setString(2, cusDto.getLastname());
+			ps.setString(3, cusDto.getAddress());
+			ps.setLong(4, cusDto.getMobile());
+			ps.executeUpdate();
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+			throw new SomethingWentWrongException("Unable to update details.");
+		}finally {
+			try {
+				DBUtils.closeConnection(con);
+			} catch (SQLException e) {
+//				e.printStackTrace();
+			}
+		}
+		
+	}
+
+	@Override
+	public void deleteAccount() throws SomethingWentWrongException {
+		Connection con = null;	 
+		try {
+			con =DBUtils.getConnectionToDatabase();
+			int cusId = LoggedInCustomer.loggedInCustomerId;
+			String query= "UPDATE customer SET is_delete = 1 WHERE id = ? ";
+			PreparedStatement ps = con.prepareStatement(query); 
+			ps.setInt(1, cusId);
+			ps.executeUpdate();
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+			throw new SomethingWentWrongException("Unable to delete account.");
+		}finally {
+			try {
+				DBUtils.closeConnection(con);
+			} catch (SQLException e) {
+//				e.printStackTrace();
+			}
+		}
+	}
 }

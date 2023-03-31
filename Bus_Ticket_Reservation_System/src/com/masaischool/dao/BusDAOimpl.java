@@ -8,8 +8,13 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.masaischool.dto.BookingDTO;
+import com.masaischool.dto.BookingDTOimpl;
 import com.masaischool.dto.BusDTO;
+import com.masaischool.dto.BusDTOimpl;
 import com.masaischool.dto.ScheduleDTO;
 import com.masaischool.dto.SeatsDTO;
 import com.masaischool.dto.SeatsDTOimpl;
@@ -107,6 +112,34 @@ public class BusDAOimpl implements BusDAO {
 //				e.printStackTrace();
 			}
 		}
+	}
+
+	@Override
+	public List<BusDTO> getBusList() throws SomethingWentWrongException, NoRecordFoundException {
+		Connection con = null;
+		List<BusDTO> list= new ArrayList<>();
+		try {
+			con =DBUtils.getConnectionToDatabase();
+			String query = "SELECT bus_id, bus_name, bus_type, bus_number, total_seats FROM bus WHERE is_delete = 0 "; 
+			PreparedStatement ps = con.prepareStatement(query);
+			ResultSet rs= ps.executeQuery();
+			if(DBUtils.isResultSetEmpty(rs)) {
+				throw new NoRecordFoundException("No bus list found.");
+			}
+			while(rs.next()) {
+				list.add(new BusDTOimpl(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5)));
+			}
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+			throw new SomethingWentWrongException("unable to get booking list.");
+		}finally {
+			try {
+				DBUtils.closeConnection(con);
+			} catch (SQLException e) {
+//				e.printStackTrace();
+			}
+		}
+		return list;
 	}
 	
 	
