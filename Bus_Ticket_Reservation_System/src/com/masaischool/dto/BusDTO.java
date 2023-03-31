@@ -14,12 +14,12 @@ public interface BusDTO {
 	public void setBusNumber(String busNumber)  ;
 	public int getTotalSeats()  ;
 	public void setTotalSeats(int totalSeats)  ;
-	public String getSource()  ;
-	public void setSource(String source)  ;
-	public String getDestination()  ;
-	public void setDestination(String destination)  ;
-	public LocalDateTime getDepartureTime()  ;
-	public void setDepartureTime(LocalDateTime departureTime) ; 
-	public LocalDateTime getArrivalTime()  ;
-	public void setArrivalTime(LocalDateTime arrivalTime)  ;
+//	public String getSource()  ;
+//	public void setSource(String source)  ;
+//	public String getDestination()  ;
+//	public void setDestination(String destination)  ;
+//	public LocalDateTime getDepartureTime()  ;
+//	public void setDepartureTime(LocalDateTime departureTime) ; 
+//	public LocalDateTime getArrivalTime()  ;
+//	public void setArrivalTime(LocalDateTime arrivalTime)  ;
 }

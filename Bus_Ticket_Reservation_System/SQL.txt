@@ -48,6 +48,73 @@ CONSTRAINT fk_bus_booking FOREIGN KEY(bus_id) REFERENCES bus(id),
 CONSTRAINT fk_passenger_booking FOREIGN KEY(passenger_id) REFERENCES passenger(id)
 );
 
+-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=--==-=-==-=--=
+ New Data Base for Bus Reservation System:
+ 
+ 1. Bus Table
+
+CREATE TABLE bus(
+id int PRIMARY KEY auto_increment,
+bus_id VARCHAR(8) UNIQUE NOT NULL,
+bus_name VARCHAR(20) NOT NULL,
+bus_type VARCHAR(20) NOT NULL,
+bus_number VARCHAR(20) NOT NULL,
+total_seats INT NOT NULL,
+is_delete tinyint DEFAULT 0
+); 
+
+ 
+2. Schedule Table;
+
+CREATE TABLE schedule(
+id int PRIMARY KEY auto_increment,
+bus_id int NOT NULL,
+source VARCHAR(20) NOT NULL,
+destination VARCHAR(20) NOT NULL,
+departure_time DATETIME NOT NULL,
+arrival_time DATETIME NOT NULL,
+is_delete tinyint DEFAULT 0,
+CONSTRAINT fk_bus_sche FOREIGN KEY(bus_id) REFERENCES bus(id) ON DELETE CASCADE 
+ON UPDATE CASCADE
+); 
+
+3. Seats Table;
+
+CREATE TABLE seats(
+id int PRIMARY KEY auto_increment,
+bus_id int NOT NULL,     
+seat_no int NOT NULL,
+is_booked tinyint DEFAULT 0,
+CONSTRAINT fk_bus_seat FOREIGN KEY(bus_id) REFERENCES bus(id) ON DELETE CASCADE 
+ON UPDATE CASCADE
+); 
+
+ALTER TABLE seats ADD UNIQUE (bus_id, seat_no);
 
 
+4. Customer Table
 
+CREATE TABLE Customer(
+id int PRIMARY KEY auto_increment,
+cus_id VARCHAR(8) UNIQUE NOT NULL,
+first_name VARCHAR(20) NOT NULL,
+last_name VARCHAR(20) NOT NULL,
+address VARCHAR(20) NOT NULL,
+mobile bigint NOT NULL,
+username VARCHAR(20) UNIQUE NOT NULL,
+password VARCHAR(20) NOT NULL,
+is_delete tinyint DEFAULT 0
+);
+
+5. Booking Table;
+
+CREATE TABLE Booking(
+id int PRIMARY KEY auto_increment,
+bus_id int NOT NULL,   
+customer_id int NOT NULL,
+is_booked tinyint DEFAULT 0,
+CONSTRAINT fk_bus_booking FOREIGN KEY(bus_id) REFERENCES bus(id) ON DELETE CASCADE 
+ON UPDATE CASCADE,
+CONSTRAINT fk_cus_booking FOREIGN KEY(customer_id) REFERENCES customer(id) ON DELETE CASCADE 
+ON UPDATE CASCADE
+);
