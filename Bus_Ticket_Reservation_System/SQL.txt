@@ -106,6 +106,9 @@ password VARCHAR(20) NOT NULL,
 is_delete tinyint DEFAULT 0
 );
 
+ALTER TABLE customer MODIFY mobile bigint UNIQUE NOT NULL;
+
+
 5. Booking Table;
 
 CREATE TABLE Booking(
@@ -118,3 +121,10 @@ ON UPDATE CASCADE,
 CONSTRAINT fk_cus_booking FOREIGN KEY(customer_id) REFERENCES customer(id) ON DELETE CASCADE 
 ON UPDATE CASCADE
 );
+
+ALTER TABLE booking DROP is_booked;
+ALTER TABLE booking ADD booking_date DATETIME ;
+ALTER TABLE booking ADD booked_on DATETIME ;
+
+
+

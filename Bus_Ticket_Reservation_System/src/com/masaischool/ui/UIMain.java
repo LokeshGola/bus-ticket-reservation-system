@@ -11,12 +11,9 @@ public class UIMain {
 		System.out.println("3. Delete bus");
 		System.out.println("4. View all bookings");
 		
-//		System.out.println("5. Update bus");
-//		System.out.println("6. Update bus");
-//		System.out.println("7. Update bus");
-//		System.out.println("8. Update bus");
-//		System.out.println("9. Update bus");
-//		System.out.println("10. Update bus");
+		System.out.println("5. View bookings for a date range");
+		System.out.println("6. View bookings by bus name");
+		System.out.println("7. View bookings by mobile number of a passenger");
 		System.out.println("0. Exit");
 		System.out.println("Entre Selection : ");
 	}
@@ -36,19 +33,16 @@ public class UIMain {
 				BusUI.deleteBus(sc);
 				break;
 			case 4:
-//				BusUI.viewAllBookings(sc);
+				BusUI.viewAllBookings();
 				break;
 			case 5:
-				//
+				BusUI.viewBookingsForDateRange(sc);
 				break;
 			case 6:
-				//
+				BusUI.viewBookingsByBusName(sc);
 				break;
 			case 7:
-				//
-				break;
-			case 8:
-				//
+				BusUI.viewBookingsByMobileNumber(sc);
 				break;
 			case 0:
 				System.out.println("Thank you admin.");
@@ -72,17 +66,15 @@ public class UIMain {
 	}
 	public static void displayCustomerMenu(Scanner sc) {
 		System.out.println("Welcome User...!");
-//		System.out.println("1. ");
-//		System.out.println("2. Update bus");
-//		System.out.println("3. Delete bus");
-//		System.out.println("4. View all bookings");
+		System.out.println("1. View bus list");
+		System.out.println("2. Book ticket by bus number");
+		System.out.println("3. Cancel ticket");
+		System.out.println("4. Update customer");
 		
-//		System.out.println("5. Update bus");
-//		System.out.println("6. Update bus");
+		System.out.println("5. View booking history");
+		System.out.println("6. Delete account");
 //		System.out.println("7. Update bus");
 //		System.out.println("8. Update bus");
-//		System.out.println("9. Update bus");
-//		System.out.println("10. Update bus");
 		System.out.println("0. Log out");
 		System.out.println("Entre Selection : ");
 	}
@@ -93,28 +85,23 @@ public class UIMain {
 			choice = sc.nextInt();
 			switch(choice) {
 			case 1:
-//				BusUI.addBus(sc);
+				CustomerUI.viewBusList();
 				break;
 			case 2:
-//				BusUI.updateBus(sc);
+				CustomerUI.bookTicketByBusNumber(sc);
 				break;
 			case 3:
-//				BusUI.deleteBus(sc);
+				CustomerUI.cancelTicket(sc);
 				break;
 			case 4:
-//				BusUI.viewAllBookings(sc);
+				CustomerUI.updateCustomer(sc);
 				break;
 			case 5:
-				//
+				CustomerUI.getBookingHistory();
 				break;
 			case 6:
-				//
-				break;
-			case 7:
-				//
-				break;
-			case 8:
-				//
+				CustomerUI.deleteAccount();
+				CustomerUI.logout();     // After deleting the account, called the log out method
 				break;
 			case 0:
 				System.out.println("Thank you user. have a good day.");
