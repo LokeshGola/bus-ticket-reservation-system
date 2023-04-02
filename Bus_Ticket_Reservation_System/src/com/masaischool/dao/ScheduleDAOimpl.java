@@ -19,11 +19,12 @@ public class ScheduleDAOimpl implements ScheduleDAO {
 			con =DBUtils.getConnectionToDatabase();
 			 
 			PreparedStatement ps1 = con.prepareStatement("SELECT id FROM bus WHERE bus_id = ? ");
-			ps1.setString(1, schDto.getBus().getBusId());
+			ps1.setString(1, schDto.getBus().getBusId());   ////// doubt here 
 			ResultSet rs= ps1.executeQuery();
 			if(DBUtils.isResultSetEmpty(rs)) {
 				throw new NoRecordFoundException("No bus id found.");
 			}
+			rs.next();
 			int busId = rs.getInt(1);			
 			
 			String query= "INSERT INTO schedule (bus_id, source, destination, departure_time, arrival_time ) VALUES (?, ?, ?, ?, ? ) ";

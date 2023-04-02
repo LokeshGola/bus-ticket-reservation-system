@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 
 import com.masaischool.dto.CustomerDTO;
 import com.masaischool.exception.NoRecordFoundException;
@@ -17,7 +16,7 @@ public class CustomerDAOimpl implements CustomerDAO{
 		Connection con = null;	 
 		try {
 			con =DBUtils.getConnectionToDatabase();
-			String query= "SELECT id FROM customer WHERE username = ? AND password = ? ";
+			String query= "SELECT id FROM customer WHERE username = ? AND password = ? AND customer.is_delete = 0";
 			PreparedStatement ps = con.prepareStatement(query); 
 			ps.setString(1, username);
 			ps.setString(2, password);

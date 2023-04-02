@@ -63,7 +63,9 @@ total_seats INT NOT NULL,
 is_delete tinyint DEFAULT 0
 ); 
 
- 
+ALTER TABLE bus ADD available_seats int ;
+
+
 2. Schedule Table;
 
 CREATE TABLE schedule(
@@ -127,4 +129,34 @@ ALTER TABLE booking ADD booking_date DATETIME ;
 ALTER TABLE booking ADD booked_on DATETIME ;
 
 
+1. bus   2. schedule   3. seats.    4.booking    5. customer
 
+--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=--=-===---==-=-=-=-=--=-=-=-
+
+QUERIES TO EXECUTE:-
+1.
+SELECT bus.bus_number, S.source, S.destination FROM bus INNER JOIN schedule S ON 
+ bus.id = S.bus_id AND DATE(departure_time) = '2023-04-02 ' AND S.is_delete = 0 AND 
+  bus.is_delete = 0;
+
+2.
+Insert into bus (bus_id, bus_name, bus_type,bus_number, total_seats) values 
+('AE001','Saho','shuttle bus','91001',50 ) ;
+
+3.
+Insert into schedule (bus_id, source, destination, departure_time, arrival_time ) 
+values ('2','delhi','mathura','2023-04-05 10:15','2023-04-05 15:50' );
+
+4.
+Insert into customer (cus_id, first_name, last_name,address, mobile, username, password)
+ values ('cus003','Rohan','gola','delhi',8894235235, 'rohan@gmail.com', '12345' ) ;
+ 
+5.
+Insert into booking (bus_id, customer_id, booking_date,booked_on, is_booked) values 
+('1','1','2023-04-02 18:50:00','2023-03-25 20:50',1 ) ;
+
+6.
+SELECT bus.bus_number, S.source, S.destination, available_seats,  DATE(departure_time),
+ TIME(departure_time) FROM bus INNER JOIN schedule S ON  bus.id = S.bus_id 
+ AND DATE(departure_time) >= '2023-04-02' AND S.is_delete = 0 AND bus.is_delete = 0 ;
+  

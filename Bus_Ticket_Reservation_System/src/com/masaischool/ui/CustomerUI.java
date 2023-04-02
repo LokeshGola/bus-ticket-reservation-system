@@ -11,8 +11,11 @@ import com.masaischool.dao.CustomerDAO;
 import com.masaischool.dao.CustomerDAOimpl;
 import com.masaischool.dto.BusBookingDTO;
 import com.masaischool.dto.BusDTO;
+import com.masaischool.dto.BusDTOimpl;
 import com.masaischool.dto.CustomerDTO;
 import com.masaischool.dto.CustomerDTOimpl;
+import com.masaischool.dto.ScheduleDTO;
+import com.masaischool.dto.ScheduleDTOimpl;
 import com.masaischool.exception.NoRecordFoundException;
 import com.masaischool.exception.SomethingWentWrongException;
 
@@ -84,12 +87,45 @@ public class CustomerUI {
 		}
 		
 	}
-	public static void bookTicketByBusNumber(Scanner sc) {
+	
+	public static void bookTicket(Scanner sc) {
+		
+		System.out.println("Entre date in yyyy-mm-dd format");
+		String date = sc.next();
+		
+		BookingDAO bookDao = new BookingDAOimpl();
+		try {
+			List<ScheduleDTO> list = bookDao.getSchedule(date);
+			list.forEach( e -> {
+				System.out.println("Bus Number: " + e.getBus().getBusNumber()+"  Source: "+ e.getSource()
+				+"  Destination: "+e.getDestination()+ "  Departure: "+e.getDepartureTime() +"   Available Seats: "
+						+e.getBus().getTotalSeats());
+			});
+		} catch (SomethingWentWrongException | NoRecordFoundException e) {
+			System.out.println(e.getMessage());
+//			e.printStackTrace();
+		}
 		System.out.println("Entre bus number");
 		String busNumber = sc.next();
 		
-		BookingDAO bookDao = new BookingDAOimpl();
-//		bookDao.bookTicketByBusNumber(busNumber);
+		System.out.println("Entre source");
+		String source = sc.next();
+		
+		System.out.println("Entre destination");
+		String dest = sc.next();
+		
+		System.out.println("Entre booking date in yyyy-mm-dd format");
+		String bookingDate = sc.next();
+		
+		BusDTO busDto = new BusDTOimpl(null,null,null,busNumber, 0); 
+		ScheduleDTO schDto = new ScheduleDTOimpl(source, dest, null, null, busDto);
+		try {
+			bookDao.bookTicket(schDto, bookingDate);
+			System.out.println("Ticket booked successfully.");
+		} catch (SomethingWentWrongException | NoRecordFoundException e) {
+			System.out.println(e.getMessage());
+//			e.printStackTrace();
+		}
 	}
 	
 	public static void cancelTicket(Scanner sc) {

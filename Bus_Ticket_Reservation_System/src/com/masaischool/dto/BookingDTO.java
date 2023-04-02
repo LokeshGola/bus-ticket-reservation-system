@@ -12,6 +12,6 @@ public interface BookingDTO {
 	public void setBooking_date(LocalDateTime booking_date)  ;
 	public LocalDateTime getBooked_date()  ;
 	public void setBooked_date(LocalDateTime booked_date) ; 
-	public Supplier<LocalDateTime> getCurrentdate()  ;
+	public LocalDateTime getCurrentdate()  ;
 	public void setCurrentdate(Supplier<LocalDateTime> currentdate) ; 
 }
