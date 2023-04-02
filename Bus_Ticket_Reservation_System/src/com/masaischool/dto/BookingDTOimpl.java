@@ -42,8 +42,8 @@ public class BookingDTOimpl implements BookingDTO {
 	public void setBooked_date(LocalDateTime booked_date) {
 		this.booked_date = booked_date;
 	}
-	public Supplier<LocalDateTime> getCurrentdate() {
-		return currentdate;
+	public LocalDateTime getCurrentdate() {
+		return currentdate.get();
 	}
 	public void setCurrentdate(Supplier<LocalDateTime> currentdate) {
 		this.currentdate = currentdate;

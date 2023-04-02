@@ -57,8 +57,8 @@ public class BusUI {
 		LocalTime arrival_time= LocalTime.parse(sc.next());
 		LocalDateTime arrival = LocalDateTime.of(arrival_date, arrival_time);
 		
-		ScheduleDTO schDto = new ScheduleDTOimpl(source, destination, departure, arrival, null) ;
 		BusDTO busDto = new BusDTOimpl(busId, busName, busType, busNumber, totalSeats );
+		ScheduleDTO schDto = new ScheduleDTOimpl(source, destination, departure, arrival, busDto) ;
 		
 		BusDAO busDao = new BusDAOimpl();
 		try {

@@ -1,18 +1,12 @@
 package com.masaischool.dao;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.masaischool.dto.BookingDTO;
-import com.masaischool.dto.BookingDTOimpl;
 import com.masaischool.dto.BusDTO;
 import com.masaischool.dto.BusDTOimpl;
 import com.masaischool.dto.ScheduleDTO;
@@ -28,13 +22,14 @@ public class BusDAOimpl implements BusDAO {
 		Connection con = null;	 
 		try {
 			con =DBUtils.getConnectionToDatabase();
-			String query= "INSERT INTO bus (bus_id, bus_name, bus_type, bus_number, total_seats) VALUES (?,?,?,?,?)";
+			String query= "INSERT INTO bus (bus_id, bus_name, bus_type, bus_number, total_seats, available_seats) VALUES (?,?,?,?,?,?)";
 			PreparedStatement ps = con.prepareStatement(query); 
 			ps.setString(1, bus.getBusId());
 			ps.setString(2, bus.getBusName());
 			ps.setString(3, bus.getBusType());
 			ps.setString(4, bus.getBusNumber());
 			ps.setInt(5, bus.getTotalSeats());
+			ps.setInt(6, bus.getTotalSeats());  // inserting available seats = total seats ; 
 			ps.executeUpdate();
 			// adding schedule 
 			ScheduleDAO schDao = new ScheduleDAOimpl();
@@ -56,8 +51,8 @@ public class BusDAOimpl implements BusDAO {
 			}
 			
 		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
-//			throw new SomethingWentWrongException("unable to add bus.");
+//			e.printStackTrace();
+			throw new SomethingWentWrongException("unable to add bus due to duplicate bus id or bus number.");
 		}finally {
 			try {
 				DBUtils.closeConnection(con);

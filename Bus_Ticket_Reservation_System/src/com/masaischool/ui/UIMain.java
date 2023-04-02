@@ -68,13 +68,11 @@ public class UIMain {
 		System.out.println("Welcome User...!");
 		System.out.println("1. View bus list");
 		System.out.println("2. Book ticket by bus number");
-		System.out.println("3. Cancel ticket");
-		System.out.println("4. Update customer");
+//		System.out.println("3. Cancel ticket");
+		System.out.println("3. Update customer");
 		
-		System.out.println("5. View booking history");
-		System.out.println("6. Delete account");
-//		System.out.println("7. Update bus");
-//		System.out.println("8. Update bus");
+		System.out.println("4. View booking history");
+		System.out.println("5. Delete account");
 		System.out.println("0. Log out");
 		System.out.println("Entre Selection : ");
 	}
@@ -88,18 +86,18 @@ public class UIMain {
 				CustomerUI.viewBusList();
 				break;
 			case 2:
-				CustomerUI.bookTicketByBusNumber(sc);
+				CustomerUI.bookTicket(sc);
 				break;
+//			case 3:
+//				CustomerUI.cancelTicket(sc);
+//				break;
 			case 3:
-				CustomerUI.cancelTicket(sc);
-				break;
-			case 4:
 				CustomerUI.updateCustomer(sc);
 				break;
-			case 5:
+			case 4:
 				CustomerUI.getBookingHistory();
 				break;
-			case 6:
+			case 5:
 				CustomerUI.deleteAccount();
 				CustomerUI.logout();     // After deleting the account, called the log out method
 				break;
