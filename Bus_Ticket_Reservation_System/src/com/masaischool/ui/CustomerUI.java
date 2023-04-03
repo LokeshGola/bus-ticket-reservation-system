@@ -32,7 +32,7 @@ public class CustomerUI {
 			cusDao.login(username, password);
 		} catch (SomethingWentWrongException | NoRecordFoundException e) {
 			System.out.println(e.getMessage());
-			e.printStackTrace();
+//			e.printStackTrace();
 			return false;
 		}
 		return true;		
@@ -72,7 +72,7 @@ public class CustomerUI {
 			System.out.println("Congratulations..! Sign-up successful.");
 		} catch (SomethingWentWrongException e) {
 			System.out.println(e.getMessage());
-			e.printStackTrace();
+//			e.printStackTrace();
 		}
 	}
 
@@ -96,6 +96,7 @@ public class CustomerUI {
 		BookingDAO bookDao = new BookingDAOimpl();
 		try {
 			List<ScheduleDTO> list = bookDao.getSchedule(date);
+//			list.forEach(System.out::println);
 			list.forEach( e -> {
 				System.out.println("Bus Number: " + e.getBus().getBusNumber()+"  Source: "+ e.getSource()
 				+"  Destination: "+e.getDestination()+ "  Departure: "+e.getDepartureTime() +"   Available Seats: "
@@ -124,7 +125,7 @@ public class CustomerUI {
 			System.out.println("Ticket booked successfully.");
 		} catch (SomethingWentWrongException | NoRecordFoundException e) {
 			System.out.println(e.getMessage());
-//			e.printStackTrace();
+			e.printStackTrace();
 		}
 	}
 	
@@ -177,4 +178,11 @@ public class CustomerUI {
 //			e.printStackTrace();
 		}
 	}
+//	public static void main(String[] args) {
+////		BookingDAO a = new BookingDAOimpl();
+//		
+//		getBookingHistory();
+////		bookTicket(new Scanner(System.in));
+////				a.getBookingListForDateRange(, )
+//	}
 }

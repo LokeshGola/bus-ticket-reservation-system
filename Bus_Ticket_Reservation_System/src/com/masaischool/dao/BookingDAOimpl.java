@@ -28,14 +28,14 @@ public class BookingDAOimpl implements BookingDAO {
 		try {
 			con =DBUtils.getConnectionToDatabase();
 			String query = "SELECT bus.bus_id, customer.cus_id, booking.booking_date, booking.booked_on FROM booking INNER JOIN bus ON "
-					+" bus.id = booking.bus_id INNER JOIN customer ON customer.cus_id = booking.customer_id AND bus.is_delete = 0 "; 
+					+" bus.id = booking.bus_id INNER JOIN customer ON customer.id = booking.customer_id AND bus.is_delete = 0 "; 
 			PreparedStatement ps = con.prepareStatement(query);
 			ResultSet rs= ps.executeQuery();
 			if(DBUtils.isResultSetEmpty(rs)) {
 				throw new NoRecordFoundException("No booking found.");
 			}
 			while(rs.next()) {
-				list.add(new BookingDTOimpl(rs.getString(1), rs.getString(2), LocalDateTime.parse(rs.getString(3)), LocalDateTime.parse(rs.getString(4))));
+				list.add( new BookingDTOimpl(rs.getString(1), rs.getString(2), rs.getTimestamp(3).toLocalDateTime() , rs.getTimestamp(4).toLocalDateTime()));
 			}
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
@@ -66,7 +66,7 @@ public class BookingDAOimpl implements BookingDAO {
 				throw new NoRecordFoundException("No booking found for this date range.");
 			}
 			while(rs.next()) {
-				list.add(new BookingDTOimpl(rs.getString(1), rs.getString(2), LocalDateTime.parse(rs.getString(3)), LocalDateTime.parse(rs.getString(4))));
+				list.add(new BookingDTOimpl(rs.getString(1), rs.getString(2), rs.getTimestamp(3).toLocalDateTime(), rs.getTimestamp(4).toLocalDateTime()));
 			}
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
@@ -98,7 +98,7 @@ public class BookingDAOimpl implements BookingDAO {
 				throw new NoRecordFoundException("No booking found for this bus name.");
 			}
 			while(rs.next()) {
-				list.add(new BookingDTOimpl(rs.getString(1), rs.getString(2), LocalDateTime.parse(rs.getString(3)), LocalDateTime.parse(rs.getString(4))));
+				list.add(new BookingDTOimpl(rs.getString(1), rs.getString(2), rs.getTimestamp(3).toLocalDateTime(), rs.getTimestamp(4).toLocalDateTime()));
 			}
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
@@ -145,10 +145,10 @@ public class BookingDAOimpl implements BookingDAO {
 		return list;
 	}
 
-	@Override
-	public void bookTicketByBusNumber(String busNumber) throws SomethingWentWrongException, NoRecordFoundException {
-
-	}
+//	@Override
+//	public void bookTicketByBusNumber(String busNumber) throws SomethingWentWrongException, NoRecordFoundException {
+//
+//	}
 	
 	@Override
 	public List<ScheduleDTO> getSchedule(String date)	throws SomethingWentWrongException, NoRecordFoundException {
@@ -163,7 +163,7 @@ public class BookingDAOimpl implements BookingDAO {
 //					+" bus.id = S.bus_id AND DATE(departure_time) >= '2023-04-02' AND S.is_delete = 0 AND bus.is_delete = 0  ";
 			String query = "SELECT bus.bus_number, S.source, S.destination, available_seats, "
 					+" departure_time FROM bus INNER JOIN schedule S ON "
-					+" bus.id = S.bus_id AND DATE(departure_time) >= '2023-04-02' AND S.is_delete = 0 AND bus.is_delete = 0  ";
+					+" bus.id = S.bus_id AND DATE(departure_time) >= ? AND S.is_delete = 0 AND bus.is_delete = 0  ";
 			
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setString(1, date);
@@ -173,7 +173,7 @@ public class BookingDAOimpl implements BookingDAO {
 			}
 			while(rs.next()) {
 				BusDTO busDto= new BusDTOimpl(null, null, null, rs.getString(1), rs.getInt(4));    
-				ScheduleDTO schDto = new ScheduleDTOimpl(rs.getString(2), rs.getString(3),LocalDateTime.parse(rs.getString(5)),null, busDto);
+				ScheduleDTO schDto = new ScheduleDTOimpl(rs.getString(2), rs.getString(3),  rs.getTimestamp(5).toLocalDateTime()  ,null, busDto);
 				list.add(schDto);
 			}
 		} catch (ClassNotFoundException | SQLException e) {
@@ -193,20 +193,22 @@ public class BookingDAOimpl implements BookingDAO {
 		Connection con = null;
 		try {
 			con =DBUtils.getConnectionToDatabase();
-			String query = "SELECT bus.id, S.departure_time FROM bus INNER JOIN schedule S ON bus.id = S.bus_id INNER JOIN booking ON bus.id = booking.bus_id AND bus_number = ? AND DATE(departure_time) = ? AND bus.is_delete = 0 AND S.is_delete = 0 "; 
+			String query = "SELECT bus.id, S.departure_time FROM bus INNER JOIN schedule S ON bus.id = S.bus_id AND bus_number = ? AND DATE(departure_time) = ? AND bus.is_delete = 0 AND S.is_delete = 0 "; 
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setString(1, schDto.getBus().getBusNumber());
 			ps.setString(2, date);
+			
 			ResultSet rs= ps.executeQuery();
 			if(DBUtils.isResultSetEmpty(rs)) {
-				throw new NoRecordFoundException("No bus is found.");
+				throw new NoRecordFoundException("No bus is found for for this date.");
 			}
 			rs.next();
 			int busId = rs.getInt(1);
 			int cusId = LoggedInCustomer.loggedInCustomerId;
-			LocalDateTime bookingDate = LocalDateTime.parse(rs.getString(2));
-//			String bookingDate = rs.getString(2);
+			LocalDateTime bookingDate = rs.getTimestamp(2).toLocalDateTime();
 			
+//			String bookingDate = rs.getString(2);
+						
 			BookingDTO bookDto= new BookingDTOimpl(null, null, null, null);
 			LocalDateTime bookedOn = bookDto.getCurrentdate();
 			
@@ -255,7 +257,7 @@ public class BookingDAOimpl implements BookingDAO {
 			}
 			while(rs.next()) {
 				BusDTO busDto = new BusDTOimpl(null, rs.getString(1), rs.getString(2), rs.getString(3), 0);
-				BookingDTO bookDto = new BookingDTOimpl(null, null, LocalDateTime.parse(rs.getString(4)), LocalDateTime.parse(rs.getString(5)));
+				BookingDTO bookDto = new BookingDTOimpl(null, null, rs.getTimestamp(4).toLocalDateTime() , rs.getTimestamp(5).toLocalDateTime());
 				
 				BusBookingDTO busBookDto = new BusBookingDTOimpl(busDto, bookDto); 
 				list.add(busBookDto);
@@ -272,9 +274,5 @@ public class BookingDAOimpl implements BookingDAO {
 		}
 		return list;
 	}
-
-	
-
-	
 	
 }

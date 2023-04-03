@@ -36,7 +36,7 @@ public class ScheduleDAOimpl implements ScheduleDAO {
 			ps.setTimestamp(5, Timestamp.valueOf(schDto.getArrivalTime()));
 			ps.executeUpdate();
 		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 			throw new SomethingWentWrongException("unable to add schedule.");
 		}finally {
 			try {

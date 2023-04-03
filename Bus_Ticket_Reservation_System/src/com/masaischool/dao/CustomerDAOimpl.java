@@ -25,9 +25,10 @@ public class CustomerDAOimpl implements CustomerDAO{
 			if(DBUtils.isResultSetEmpty(rs)) {
 				throw new NoRecordFoundException("Invalid username and password. ");
 			}
+			rs.next();
 			LoggedInCustomer.loggedInCustomerId = rs.getInt(1);
 		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 			throw new SomethingWentWrongException("unable to login.");
 		}finally {
 			try {
@@ -59,7 +60,7 @@ public class CustomerDAOimpl implements CustomerDAO{
 			ps.setString(7, cusDto.getPassword());
 			ps.executeUpdate();
 		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 			throw new SomethingWentWrongException("unable to sign up,try again.");
 		}finally {
 			try {
@@ -75,15 +76,17 @@ public class CustomerDAOimpl implements CustomerDAO{
 		Connection con = null;	 
 		try {
 			con =DBUtils.getConnectionToDatabase();
-			String query= "INSERT INTO customer ( first_name, last_name, address, mobile ) VALUES (?, ?, ?, ? ) ";
+			int id = LoggedInCustomer.loggedInCustomerId;
+			String query= "UPDATE customer SET  first_name = ?, last_name = ?, address = ?, mobile = ? WHERE id = ? ";
 			PreparedStatement ps = con.prepareStatement(query); 
 			ps.setString(1, cusDto.getFirstname());
 			ps.setString(2, cusDto.getLastname());
 			ps.setString(3, cusDto.getAddress());
 			ps.setLong(4, cusDto.getMobile());
+			ps.setInt(5, id);
 			ps.executeUpdate();
 		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 			throw new SomethingWentWrongException("Unable to update details.");
 		}finally {
 			try {
@@ -106,7 +109,7 @@ public class CustomerDAOimpl implements CustomerDAO{
 			ps.setInt(1, cusId);
 			ps.executeUpdate();
 		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 			throw new SomethingWentWrongException("Unable to delete account.");
 		}finally {
 			try {

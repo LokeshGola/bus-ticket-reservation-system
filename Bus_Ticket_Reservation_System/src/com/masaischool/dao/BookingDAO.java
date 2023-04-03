@@ -14,7 +14,7 @@ public interface BookingDAO {
 	public List<BookingDTO> getBookingListByBusName(String busName) throws SomethingWentWrongException ,NoRecordFoundException;
 	public List<BookingDTO> getBookingListByMobileNumber(long mobile) throws SomethingWentWrongException ,NoRecordFoundException;
 	
-	public void bookTicketByBusNumber(String busNumber) throws SomethingWentWrongException ,NoRecordFoundException;
+//	public void bookTicketByBusNumber(String busNumber) throws SomethingWentWrongException ,NoRecordFoundException;
 	public List<ScheduleDTO> getSchedule( String date) throws SomethingWentWrongException ,NoRecordFoundException;
 	public void bookTicket(ScheduleDTO schDto, String date) throws SomethingWentWrongException, NoRecordFoundException ;
 

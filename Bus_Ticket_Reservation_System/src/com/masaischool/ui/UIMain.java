@@ -2,6 +2,7 @@ package com.masaischool.ui;
 
 import java.util.Scanner;
 
+
 public class UIMain {
 	
 	public static void displayAdminMenu(Scanner sc) {
@@ -35,6 +36,7 @@ public class UIMain {
 			case 4:
 				BusUI.viewAllBookings();
 				break;
+				
 			case 5:
 				BusUI.viewBookingsForDateRange(sc);
 				break;
@@ -100,6 +102,7 @@ public class UIMain {
 			case 5:
 				CustomerUI.deleteAccount();
 				CustomerUI.logout();     // After deleting the account, called the log out method
+				choice = 0;
 				break;
 			case 0:
 				System.out.println("Thank you user. have a good day.");
