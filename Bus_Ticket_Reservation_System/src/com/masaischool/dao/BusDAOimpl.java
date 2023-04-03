@@ -42,6 +42,7 @@ public class BusDAOimpl implements BusDAO {
 			if(DBUtils.isResultSetEmpty(rs)) {
 				throw new NoRecordFoundException("No bus id found.");
 			}
+			rs.next();
 			int busId = rs.getInt(1);			
 			// adding seats
 			SeatsDAO seatDao = new SeatsDAOimpl() ;
@@ -98,8 +99,8 @@ public class BusDAOimpl implements BusDAO {
 			ps.setString(1, busId);
 			ps.executeUpdate();
 		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
-//			throw new SomethingWentWrongException("unable to delete bus details.");
+//			e.printStackTrace();
+			throw new SomethingWentWrongException("unable to delete bus details.");
 		}finally {
 			try {
 				DBUtils.closeConnection(con);
@@ -125,7 +126,7 @@ public class BusDAOimpl implements BusDAO {
 				list.add(new BusDTOimpl(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5)));
 			}
 		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 			throw new SomethingWentWrongException("unable to get booking list.");
 		}finally {
 			try {
