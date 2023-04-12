@@ -57,10 +57,10 @@ public class BookingDAOimpl implements BookingDAO {
 		try {
 			con =DBUtils.getConnectionToDatabase();
 			String query = "SELECT bus.bus_id, customer.cus_id, booking.booking_date, booking.booked_on FROM booking INNER JOIN bus ON "
-					+" bus.id = booking.bus_id INNER JOIN customer ON customer.cus_id = booking.customer_id AND booking_date BETWEEN ? AND ? AND bus.is_delete = 0 AND customer.is_delete = 0 "; 
+					+" bus.id = booking.bus_id INNER JOIN customer ON customer.id = booking.customer_id AND booking_date BETWEEN ? AND ? AND bus.is_delete = 0 AND customer.is_delete = 0 "; 
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setString(1, startDate);
-			ps.setString(1, endDate);
+			ps.setString(2, endDate);
 			ResultSet rs= ps.executeQuery();
 			if(DBUtils.isResultSetEmpty(rs)) {
 				throw new NoRecordFoundException("No booking found for this date range.");
@@ -89,12 +89,13 @@ public class BookingDAOimpl implements BookingDAO {
 		List<BookingDTO> list= new ArrayList<>();
 		try {
 			con =DBUtils.getConnectionToDatabase();
-			String query = "SELECT bus.bus_id, customer.cus_id, booking.booking_date, booking.booked_on FROM booking INNER JOIN bus ON "
-					+" bus.id = booking.bus_id INNER JOIN customer ON customer.cus_id = booking.customer_id AND bus_name = ? AND bus.is_delete = 0 AND customer.is_delete = 0 "; 
+			String query = "SELECT bus.bus_id, C.cus_id, booking.booking_date, booking.booked_on FROM booking INNER JOIN bus ON "
+					+" bus.id = booking.bus_id INNER JOIN customer C ON C.id = booking.customer_id AND bus.bus_name = ? AND bus.is_delete = 0 AND C.is_delete = 0 "; 
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setString(1, busName);
+			
 			ResultSet rs= ps.executeQuery();
-			if(DBUtils.isResultSetEmpty(rs)) {
+			if( DBUtils.isResultSetEmpty(rs)) {
 				throw new NoRecordFoundException("No booking found for this bus name.");
 			}
 			while(rs.next()) {
@@ -122,7 +123,7 @@ public class BookingDAOimpl implements BookingDAO {
 		try {
 			con =DBUtils.getConnectionToDatabase();
 			String query = "SELECT bus.bus_id, customer.cus_id, booking.booking_date, booking.booked_on FROM booking INNER JOIN bus ON "
-					+" bus.id = booking.bus_id INNER JOIN customer ON customer.cus_id = booking.customer_id AND mobile = ? AND bus.is_delete = 0 AND customer.is_delete = 0 "; 
+					+" bus.id = booking.bus_id INNER JOIN customer ON customer.id = booking.customer_id AND mobile = ? AND bus.is_delete = 0 AND customer.is_delete = 0 "; 
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setLong(1, mobile);
 			ResultSet rs= ps.executeQuery();

@@ -144,7 +144,7 @@ public class BusUI {
 			list.forEach(System.out::println);
 		} catch (SomethingWentWrongException | NoRecordFoundException e) {
 			System.out.println(e.getMessage());
-//			e.printStackTrace();
+			e.printStackTrace();
 		}
 	}
 	public static void viewBookingsByMobileNumber(Scanner sc) {
