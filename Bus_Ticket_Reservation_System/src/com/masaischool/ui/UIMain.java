@@ -16,7 +16,7 @@ public class UIMain {
 		System.out.println("6. View bookings by bus name");
 		System.out.println("7. View bookings by mobile number of a passenger");
 		System.out.println("0. Exit");
-		System.out.println("Entre Selection : ");
+		System.out.println("Enter Selection : ");
 	}
 	public static void adminMenu(Scanner sc) {
 		int choice = 0;
@@ -56,9 +56,9 @@ public class UIMain {
 		}while(choice !=0);
 	}
 	public static void adminLogin(Scanner sc) {
-		System.out.println("Entre username:");
+		System.out.println("Enter username:");
 		String username = sc.next();
-		System.out.println("Entre password:");
+		System.out.println("Enter password:");
 		String password = sc.next();
 		if(username.equalsIgnoreCase("admin") && password.equalsIgnoreCase("root")) {
 			adminMenu(sc);
@@ -76,7 +76,7 @@ public class UIMain {
 		System.out.println("4. View booking history");
 		System.out.println("5. Delete account");
 		System.out.println("0. Log out");
-		System.out.println("Entre Selection : ");
+		System.out.println("Enter Selection : ");
 	}
 	public static void customerMenu(Scanner sc) {
 		int choice = 0;
@@ -134,7 +134,7 @@ public class UIMain {
 			System.out.println("2. Customer Login");
 			System.out.println("3. Customer Sign up");
 			System.out.println("0. Exit");
-			System.out.println("Entre Selection : ");
+			System.out.println("Enter Selection : ");
 			choice = sc.nextInt();
 			switch(choice) {
 			case 1:
