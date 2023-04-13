@@ -3,7 +3,7 @@
 
 It is a system that can help you reserve a bus ticket whenever you plan for trip to anywhere. It is a project done by me in just 4 days in Masai. It is a solo project.
 
-# Tech Stack
+# Tech Stack & Tools
 - java
 - MySQL
 - JDBC
@@ -41,8 +41,8 @@ It is a system that can help you reserve a bus ticket whenever you plan for trip
   - Logout his account
   - Delete his account
 
-# ER Daigram
+# ER Diagram
 
-![ER- Daigram (bus reservation system)](https://user-images.githubusercontent.com/112959514/229482530-4cd8998b-7856-41e9-a869-dfc1c79c0290.png)
+![ER- Diagram (bus reservation system)](https://user-images.githubusercontent.com/112959514/229482530-4cd8998b-7856-41e9-a869-dfc1c79c0290.png)
 
 
