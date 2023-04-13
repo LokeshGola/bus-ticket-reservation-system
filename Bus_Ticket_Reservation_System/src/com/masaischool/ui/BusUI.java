@@ -23,37 +23,37 @@ public class BusUI {
 	
 	public static void addBus(Scanner sc) {
 		
-		System.out.println("Entre bus id:");
+		System.out.println("Enter bus id:");
 		String busId = sc.next();
 		
-		System.out.println("Entre bus name:");
+		System.out.println("Enter bus name:");
 		String busName = sc.next();
 		
-		System.out.println("Entre bus type:");
+		System.out.println("Enter bus type:");
 		String busType = sc.next();
 		
-		System.out.println("Entre bus number:");
+		System.out.println("Enter bus number:");
 		String busNumber = sc.next();
 		
-		System.out.println("Entre total seats:");
+		System.out.println("Enter total seats:");
 		int totalSeats = sc.nextInt();
 		
-		System.out.println("Entre source:");
+		System.out.println("Enter source:");
 		String source = sc.next();
 		
-		System.out.println("Entre destination:");
+		System.out.println("Enter destination:");
 		String destination = sc.next();
 		
-		System.out.println("Entre departure date in dd-mm-yyyy format : ");
+		System.out.println("Enter departure date in dd-mm-yyyy format : ");
 		LocalDate dep_date = LocalDate.parse(sc.next(), DateTimeFormatter.ofPattern("dd-MM-yyy"));
-		System.out.println("Entre departure time in hr:min ");
+		System.out.println("Enter departure time in hr:min ");
 		LocalTime dep_time= LocalTime.parse(sc.next());
 		LocalDateTime departure = LocalDateTime.of(dep_date, dep_time);
 		
 		
-		System.out.println("Entre arrival date in dd-mm-yyyy format :");
+		System.out.println("Enter arrival date in dd-mm-yyyy format :");
 		LocalDate arrival_date = LocalDate.parse(sc.next(), DateTimeFormatter.ofPattern("dd-MM-yyy"));
-		System.out.println("Entre arrival time in hr:min ");
+		System.out.println("Enter arrival time in hr:min ");
 		LocalTime arrival_time= LocalTime.parse(sc.next());
 		LocalDateTime arrival = LocalDateTime.of(arrival_date, arrival_time);
 		
@@ -72,16 +72,16 @@ public class BusUI {
 	public static void updateBus(Scanner sc) {
 //		Update bus details (busName , busType & totalSeats only)
 		
-		System.out.println("Entre bus id:");
+		System.out.println("Enter bus id:");
 		String busId = sc.next();
 		
-		System.out.println("Entre bus name:");
+		System.out.println("Enter bus name:");
 		String busName = sc.next();
 		
-		System.out.println("Entre bus type:");
+		System.out.println("Enter bus type:");
 		String busType = sc.next();
 		
-		System.out.println("Entre total seats:");
+		System.out.println("Enter total seats:");
 		int totalSeats = sc.nextInt();
 		
 		BusDTO busDto = new BusDTOimpl(busId, busName, busType, null, totalSeats);
@@ -96,7 +96,7 @@ public class BusUI {
 		}	
 	}
 	public static void deleteBus(Scanner sc) {
-		System.out.println("Entre bus id:");
+		System.out.println("Enter bus id:");
 		String busId = sc.next();
 		
 		BusDAO busDao = new BusDAOimpl();
@@ -119,10 +119,10 @@ public class BusUI {
 		}
 	}
 	public static void viewBookingsForDateRange(Scanner sc) {
-		System.out.println("Entre start date in yyyy-mm-dd format ");
+		System.out.println("Enter start date in yyyy-mm-dd format ");
 		String startDate = sc.next();
 		
-		System.out.println("Entre end date in yyyy-mm-dd format ");
+		System.out.println("Enter end date in yyyy-mm-dd format ");
 		String endDate = sc.next();
 		
 		BookingDAO bookDao = new  BookingDAOimpl();
@@ -135,7 +135,7 @@ public class BusUI {
 		}
 	}
 	public static void viewBookingsByBusName(Scanner sc) {
-		System.out.println("Entre bus name ");
+		System.out.println("Enter bus name ");
 		String busName = sc.next();
 		
 		BookingDAO bookDao = new  BookingDAOimpl();
@@ -144,11 +144,11 @@ public class BusUI {
 			list.forEach(System.out::println);
 		} catch (SomethingWentWrongException | NoRecordFoundException e) {
 			System.out.println(e.getMessage());
-			e.printStackTrace();
+//			e.printStackTrace();
 		}
 	}
 	public static void viewBookingsByMobileNumber(Scanner sc) {
-		System.out.println("Entre mobile number ");
+		System.out.println("Enter mobile number ");
 		long mobile = sc.nextLong();
 		
 		BookingDAO bookDao = new  BookingDAOimpl();

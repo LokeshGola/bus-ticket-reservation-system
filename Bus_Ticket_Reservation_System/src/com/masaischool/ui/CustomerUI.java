@@ -21,10 +21,10 @@ import com.masaischool.exception.SomethingWentWrongException;
 
 public class CustomerUI {
 	public static boolean login(Scanner sc) {
-		System.out.println("Entre user name :");
+		System.out.println("Enter user name :");
 		String username= sc.next();
 		
-		System.out.println("Entre password :");
+		System.out.println("Enter password :");
 		String password= sc.next();
  
 		CustomerDAO cusDao = new CustomerDAOimpl();
@@ -43,25 +43,25 @@ public class CustomerUI {
 		cusDao.logout();
 	}
 	public static void signup(Scanner sc) {
-		System.out.println("Entre customer id :");
+		System.out.println("Enter customer id :");
 		String cusId= sc.next();
 		
-		System.out.println("Entre first name :");
+		System.out.println("Enter first name :");
 		String firstname= sc.next();
 		
-		System.out.println("Entre last name :");
+		System.out.println("Enter last name :");
 		String lastname= sc.next();
 		
-		System.out.println("Entre address :");
+		System.out.println("Enter address :");
 		String address= sc.next();
 		
-		System.out.println("Entre mobile number :");
+		System.out.println("Enter mobile number :");
 		long mobile= sc.nextLong();
 		
-		System.out.println("Entre user name :");
+		System.out.println("Enter user name :");
 		String username= sc.next();
 		
-		System.out.println("Entre password :");
+		System.out.println("Enter password :");
 		String password= sc.next();
 		
 		CustomerDTO cusDto = new CustomerDTOimpl(cusId, firstname, lastname, address, mobile, username, password);
@@ -90,7 +90,7 @@ public class CustomerUI {
 	
 	public static void bookTicket(Scanner sc) {
 		
-		System.out.println("Entre date in yyyy-mm-dd format");
+		System.out.println("Enter date in yyyy-mm-dd format");
 		String date = sc.next();
 		
 		BookingDAO bookDao = new BookingDAOimpl();
@@ -106,16 +106,16 @@ public class CustomerUI {
 			System.out.println(e.getMessage());
 //			e.printStackTrace();
 		}
-		System.out.println("Entre bus number");
+		System.out.println("Enter bus number");
 		String busNumber = sc.next();
 		
-		System.out.println("Entre source");
+		System.out.println("Enter source");
 		String source = sc.next();
 		
-		System.out.println("Entre destination");
+		System.out.println("Enter destination");
 		String dest = sc.next();
 		
-		System.out.println("Entre booking date in yyyy-mm-dd format");
+		System.out.println("Enter booking date in yyyy-mm-dd format");
 		String bookingDate = sc.next();
 		
 		BusDTO busDto = new BusDTOimpl(null,null,null,busNumber, 0); 
@@ -125,7 +125,7 @@ public class CustomerUI {
 			System.out.println("Ticket booked successfully.");
 		} catch (SomethingWentWrongException | NoRecordFoundException e) {
 			System.out.println(e.getMessage());
-			e.printStackTrace();
+//			e.printStackTrace();
 		}
 	}
 	
@@ -134,16 +134,16 @@ public class CustomerUI {
 	}
 	public static void updateCustomer(Scanner sc) {
 		
-		System.out.println("Entre first name :");
+		System.out.println("Enter first name :");
 		String firstname= sc.next();
 		
-		System.out.println("Entre last name :");
+		System.out.println("Enter last name :");
 		String lastname= sc.next();
 		
-		System.out.println("Entre address :");
+		System.out.println("Enter address :");
 		String address= sc.next();
 		
-		System.out.println("Entre mobile number :");
+		System.out.println("Enter mobile number :");
 		long mobile= sc.nextLong();
 		
 		CustomerDTO cusDto = new CustomerDTOimpl(null, firstname, lastname, address, mobile, null, null);
@@ -178,11 +178,4 @@ public class CustomerUI {
 //			e.printStackTrace();
 		}
 	}
-//	public static void main(String[] args) {
-////		BookingDAO a = new BookingDAOimpl();
-//		
-//		getBookingHistory();
-////		bookTicket(new Scanner(System.in));
-////				a.getBookingListForDateRange(, )
-//	}
 }
