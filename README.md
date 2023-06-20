@@ -31,7 +31,7 @@ It is a system that can help you reserve a bus ticket whenever you plan for trip
 
  The roles of the Passenger are:
   - Passengers can sign-up.
-  - Login his account
+  - Login to his account
   - Passengers can see a list of all buses in operation.
   - Passengers can book tickets by selecting the bus number.   
   - Passengers can sign in using a username and password, also they will be able to
