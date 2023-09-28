@@ -67,20 +67,20 @@ public class UIMain {
 		}
 	}
 	public static void displayCustomerMenu(Scanner sc) {
-		System.out.println("  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-		System.out.println("  ^     Welcome User...!                 ^");
-		System.out.println("  ^                                      ^");
-		System.out.println("  ^     1. View bus list                 ^");
-		System.out.println("  ^     2. Book ticket by bus number     ^");
-		System.out.println("  ^     3. Cancel ticket                 ^");
-		System.out.println("  ^     4. Update customer               ^");
-		System.out.println("  ^     5. View booking history          ^");
-		System.out.println("  ^     6. Delete account                ^");
-//		System.out.println("  ^     7. Update bus                    ^");
-//		System.out.println("  ^     8. Update bus                    ^");
-		System.out.println("  ^     0. Log out                       ^");
-		System.out.println("  ^     Entre Selection :                ^");
-		System.out.println("  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+		System.out.println("  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ");
+		System.out.println("  ^     Welcome User...!                 ^ ");
+		System.out.println("  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^ ");
+		System.out.println("  ^     1. View bus list                 ^ ");
+		System.out.println("  ^     2. Book ticket by bus number     ^ ");
+		System.out.println("  ^     3. Cancel ticket                 ^ ");
+		System.out.println("  ^     4. Update customer               ^ ");
+		System.out.println("  ^     5. View booking history          ^ ");
+		System.out.println("  ^     6. Delete account                ^ ");
+//		System.out.println("  ^     7. Update bus                    ^ ");
+//		System.out.println("  ^     8. Update bus                    ^ ");
+		System.out.println("  ^     0. Log out                       ^ ");
+		System.out.println("  ^     Entre Selection :                ^ ");
+		System.out.println("  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ");
 	}
 	public static void customerMenu(Scanner sc) {
 		int choice = 0;
@@ -92,7 +92,7 @@ public class UIMain {
 				CustomerUI.viewBusList();
 				break;
 			case 2:
-				CustomerUI.bookTicketByBusNumber(sc);
+//				CustomerUI.bookTicketByBusNumber(sc);
 				break;
 			case 3:
 				CustomerUI.cancelTicket(sc);

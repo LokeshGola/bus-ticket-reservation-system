@@ -129,6 +129,14 @@ public class CustomerUI {
 		}
 	}
 	
+//	public static void bookTicketByBusNumber(Scanner sc) {
+//		System.out.println("Entre bus number");
+//		String busNumber = sc.next();
+//		
+//		BookingDAO bookDao = new BookingDAOimpl();
+////		bookDao.bookTicketByBusNumber(busNumber);
+//	}
+	
 	public static void cancelTicket(Scanner sc) {
 		
 	}
