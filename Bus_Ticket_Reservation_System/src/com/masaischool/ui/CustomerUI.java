@@ -105,6 +105,7 @@ public class CustomerUI {
 		} catch (SomethingWentWrongException | NoRecordFoundException e) {
 			System.out.println(e.getMessage());
 //			e.printStackTrace();
+			return;
 		}
 		System.out.println("Enter bus number");
 		String busNumber = sc.next();

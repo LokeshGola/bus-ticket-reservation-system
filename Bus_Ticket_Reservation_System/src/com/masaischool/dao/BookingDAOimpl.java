@@ -170,7 +170,7 @@ public class BookingDAOimpl implements BookingDAO {
 			ps.setString(1, date);
 			ResultSet rs= ps.executeQuery();
 			if(DBUtils.isResultSetEmpty(rs)) {
-				throw new NoRecordFoundException("No bus is found.");
+				throw new NoRecordFoundException("No bus is found for the date "+ date+".");
 			}
 			while(rs.next()) {
 				BusDTO busDto= new BusDTOimpl(null, null, null, rs.getString(1), rs.getInt(4));    

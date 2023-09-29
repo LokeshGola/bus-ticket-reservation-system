@@ -7,7 +7,7 @@ public class ScheduleDTOimpl implements ScheduleDTO{
 	private String destination;
 	private LocalDateTime departureTime;
 	private LocalDateTime  arrivalTime;
-	BusDTO bus;
+	private BusDTO bus;
 	public ScheduleDTOimpl(String source, String destination, LocalDateTime departureTime, LocalDateTime arrivalTime,
 			BusDTO bus) {
 		super();
