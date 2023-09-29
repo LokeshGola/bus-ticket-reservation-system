@@ -103,7 +103,7 @@ public class BusUI {
 		try {
 			busDao.deleteBus(busId);
 			System.out.println("Bus deleted successfully.");
-		} catch (SomethingWentWrongException e) {
+		} catch (SomethingWentWrongException | NoRecordFoundException e) {
 			System.out.println(e.getMessage());
 			//e.printStackTrace();
 		}

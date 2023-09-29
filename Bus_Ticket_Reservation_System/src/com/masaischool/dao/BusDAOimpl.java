@@ -69,12 +69,13 @@ public class BusDAOimpl implements BusDAO {
 		Connection con = null;	
 		try {
 			con =DBUtils.getConnectionToDatabase();
-			String query= "UPDATE bus SET bus_name = ?, bus_type = ?, total_seats = ? WHERE bus_id = ? AND is_delete = 0 ";
+			String query= "UPDATE bus SET bus_name = ?, bus_type = ?, total_seats = ?,available_seats = ? WHERE bus_id = ? AND is_delete = 0 ";
 			PreparedStatement ps = con.prepareStatement(query); 
 			ps.setString(1, bus.getBusName());
 			ps.setString(2, bus.getBusType());
 			ps.setInt(3, bus.getTotalSeats());
-			ps.setString(4, bus.getBusId());
+			ps.setInt(4, bus.getTotalSeats());  // Number of available seats is equal to Number of total seats;
+			ps.setString(5, bus.getBusId());
 			ps.executeUpdate();
 		} catch (ClassNotFoundException | SQLException e) {
 //			e.printStackTrace();
@@ -90,14 +91,18 @@ public class BusDAOimpl implements BusDAO {
 	}
 
 	@Override
-	public void deleteBus(String busId) throws SomethingWentWrongException {
+	public void deleteBus(String busId) throws SomethingWentWrongException, NoRecordFoundException {
 		Connection con = null;	
 		try {
 			con =DBUtils.getConnectionToDatabase();
-			String query= "UPDATE bus SET is_delete = 1 WHERE bus_id = ? ";
+			String query= "UPDATE bus SET is_delete = 1 WHERE bus_id = ? and is_delete = 0 ";
 			PreparedStatement ps = con.prepareStatement(query); 
 			ps.setString(1, busId);
-			ps.executeUpdate();
+			int numberOfRows = ps.executeUpdate();
+			if(numberOfRows==0) {
+				throw new NoRecordFoundException("No bus found with id "+busId+".");
+			}
+			
 		} catch (ClassNotFoundException | SQLException e) {
 //			e.printStackTrace();
 			throw new SomethingWentWrongException("unable to delete bus details.");

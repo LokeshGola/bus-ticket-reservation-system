@@ -31,7 +31,7 @@ public class CustomerUI {
 		try {
 			cusDao.login(username, password);
 		} catch (SomethingWentWrongException | NoRecordFoundException e) {
-			System.out.println(e.getMessage());
+//			System.out.println(e.getMessage());
 //			e.printStackTrace();
 			return false;
 		}
