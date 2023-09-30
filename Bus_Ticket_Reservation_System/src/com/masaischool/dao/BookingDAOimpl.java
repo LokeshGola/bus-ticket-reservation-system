@@ -35,7 +35,7 @@ public class BookingDAOimpl implements BookingDAO {
 				throw new NoRecordFoundException("No booking found.");
 			}
 			while(rs.next()) {
-				list.add( new BookingDTOimpl(rs.getString(1), rs.getString(2), rs.getTimestamp(3).toLocalDateTime() , rs.getTimestamp(4).toLocalDateTime()));
+				list.add( new BookingDTOimpl(rs.getString(1), rs.getString(2), rs.getTimestamp(3).toLocalDateTime() , rs.getTimestamp(4).toLocalDateTime(),0));  // here, i have put 0 here, change it using rs accordingly;
 			}
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
@@ -66,7 +66,7 @@ public class BookingDAOimpl implements BookingDAO {
 				throw new NoRecordFoundException("No booking found for this date range.");
 			}
 			while(rs.next()) {
-				list.add(new BookingDTOimpl(rs.getString(1), rs.getString(2), rs.getTimestamp(3).toLocalDateTime(), rs.getTimestamp(4).toLocalDateTime()));
+				list.add(new BookingDTOimpl(rs.getString(1), rs.getString(2), rs.getTimestamp(3).toLocalDateTime(), rs.getTimestamp(4).toLocalDateTime(),0));  // here, i have put 0 here, change it using rs accordingly;
 			}
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
@@ -99,7 +99,7 @@ public class BookingDAOimpl implements BookingDAO {
 				throw new NoRecordFoundException("No booking found for this bus name.");
 			}
 			while(rs.next()) {
-				list.add(new BookingDTOimpl(rs.getString(1), rs.getString(2), rs.getTimestamp(3).toLocalDateTime(), rs.getTimestamp(4).toLocalDateTime()));
+				list.add(new BookingDTOimpl(rs.getString(1), rs.getString(2), rs.getTimestamp(3).toLocalDateTime(), rs.getTimestamp(4).toLocalDateTime(),0));  // here, i have put 0 here, change it using rs accordingly;
 			}
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
@@ -131,7 +131,7 @@ public class BookingDAOimpl implements BookingDAO {
 				throw new NoRecordFoundException("No booking found for this mobile number.");
 			}
 			while(rs.next()) {
-				list.add(new BookingDTOimpl(rs.getString(1), rs.getString(2), LocalDateTime.parse(rs.getString(3)), LocalDateTime.parse(rs.getString(4))));
+				list.add(new BookingDTOimpl(rs.getString(1), rs.getString(2), LocalDateTime.parse(rs.getString(3)), LocalDateTime.parse(rs.getString(4)),0));  // here, i have put 0 here, change it using rs accordingly;
 			}
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
@@ -190,9 +190,10 @@ public class BookingDAOimpl implements BookingDAO {
 		return list;
 	}
 	@Override
-	public void bookTicket(ScheduleDTO schDto, String date) throws SomethingWentWrongException, NoRecordFoundException {
+	public void bookTicket(ScheduleDTO schDto, String date , int numberOfTickets) throws SomethingWentWrongException, NoRecordFoundException {
 		Connection con = null;
 		try {
+			//finding the bus for the given date and schedule;
 			con =DBUtils.getConnectionToDatabase();
 			String query = "SELECT bus.id, S.departure_time FROM bus INNER JOIN schedule S ON bus.id = S.bus_id AND bus_number = ? AND DATE(departure_time) = ? AND bus.is_delete = 0 AND S.is_delete = 0 "; 
 			PreparedStatement ps = con.prepareStatement(query);
@@ -201,7 +202,7 @@ public class BookingDAOimpl implements BookingDAO {
 			
 			ResultSet rs= ps.executeQuery();
 			if(DBUtils.isResultSetEmpty(rs)) {
-				throw new NoRecordFoundException("No bus is found for for this date.");
+				throw new NoRecordFoundException("No bus found for this date.");
 			}
 			rs.next();
 			int busId = rs.getInt(1);
@@ -209,23 +210,42 @@ public class BookingDAOimpl implements BookingDAO {
 			LocalDateTime bookingDate = rs.getTimestamp(2).toLocalDateTime();
 			
 //			String bookingDate = rs.getString(2);
-						
-			BookingDTO bookDto= new BookingDTOimpl(null, null, null, null);
+			
+			//code for checking that available seats are >= number Of Tickets applied;
+			query = "SELECT bus.available_seats FROM bus INNER JOIN schedule S ON bus.id = S.bus_id AND bus_number = ? AND DATE(departure_time) = ? AND bus.is_delete = 0 AND S.is_delete = 0 ";
+			ps=con.prepareStatement(query);
+			ps.setString(1, schDto.getBus().getBusNumber());
+			ps.setString(2, date);
+			rs= ps.executeQuery();
+			if(DBUtils.isResultSetEmpty(rs)) {
+				throw new NoRecordFoundException("No seat found for this date.");
+			}
+			rs.next();
+			int availableSeats = rs.getInt(1);
+			if(availableSeats < numberOfTickets) {
+				throw new NoRecordFoundException("Sorry! "+numberOfTickets+" seats are not available. Only "+ availableSeats+" seats are available.");  // throw some other relevant exception here;
+			}
+			
+			
+			//code for booking tickets/or inserting the data into booking table;
+			BookingDTO bookDto= new BookingDTOimpl(null, null, null, null, numberOfTickets);
 			LocalDateTime bookedOn = bookDto.getCurrentdate();
 			
-			query = "INSERT INTO booking ( bus_id, customer_id, booking_date, booked_on, is_booked ) VALUES (?,?,?,?,?) ";
+			query = "INSERT INTO booking ( bus_id, customer_id, booking_date, booked_on, is_booked, number_of_tickets ) VALUES (?,?,?,?,?,?) ";
 			ps = con.prepareStatement(query);
 			ps.setInt(1, busId);
 			ps.setInt(2, cusId);
 			ps.setTimestamp(3, Timestamp.valueOf(bookingDate));
 			ps.setTimestamp(4, Timestamp.valueOf(bookedOn));
 			ps.setInt(5, 1);
+			ps.setInt(6, numberOfTickets);
 			ps.executeUpdate();
 			
 			// code to decrease the no. of available seats;
-			query = "UPDATE bus SET available_seats = available_seats - 1 WHERE id = ? ";
+			query = "UPDATE bus SET available_seats = available_seats - ? WHERE id = ? ";
 			ps = con.prepareStatement(query);
-			ps.setInt(1, busId);
+			ps.setInt(1, numberOfTickets);
+			ps.setInt(2, busId);
 			ps.executeUpdate();
 			
 		} catch (ClassNotFoundException | SQLException e) {
@@ -258,7 +278,7 @@ public class BookingDAOimpl implements BookingDAO {
 			}
 			while(rs.next()) {
 				BusDTO busDto = new BusDTOimpl(null, rs.getString(1), rs.getString(2), rs.getString(3), 0);
-				BookingDTO bookDto = new BookingDTOimpl(null, null, rs.getTimestamp(4).toLocalDateTime() , rs.getTimestamp(5).toLocalDateTime());
+				BookingDTO bookDto = new BookingDTOimpl(null, null, rs.getTimestamp(4).toLocalDateTime() , rs.getTimestamp(5).toLocalDateTime(),0);  // here, i have put 0 here, change it using rs accordingly;
 				
 				BusBookingDTO busBookDto = new BusBookingDTOimpl(busDto, bookDto); 
 				list.add(busBookDto);

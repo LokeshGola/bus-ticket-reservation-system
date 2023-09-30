@@ -119,10 +119,13 @@ public class CustomerUI {
 		System.out.println("Enter booking date in yyyy-mm-dd format");
 		String bookingDate = sc.next();
 		
+		System.out.println("Enter number of tickets");
+		int numberOfTickets = sc.nextInt();
+		
 		BusDTO busDto = new BusDTOimpl(null,null,null,busNumber, 0); 
 		ScheduleDTO schDto = new ScheduleDTOimpl(source, dest, null, null, busDto);
 		try {
-			bookDao.bookTicket(schDto, bookingDate);
+			bookDao.bookTicket(schDto, bookingDate, numberOfTickets);
 			System.out.println("Ticket booked successfully.");
 		} catch (SomethingWentWrongException | NoRecordFoundException e) {
 			System.out.println(e.getMessage());

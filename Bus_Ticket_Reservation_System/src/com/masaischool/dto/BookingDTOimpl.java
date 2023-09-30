@@ -9,14 +9,16 @@ public class BookingDTOimpl implements BookingDTO {
 	private LocalDateTime booking_date;  // booked for date;
 	private LocalDateTime booked_date;  // booked on date;
 	private Supplier<LocalDateTime> currentdate;
+	private int numberOfTickets;
 	
-	public BookingDTOimpl(String busId, String customerId, LocalDateTime booking_date, LocalDateTime booked_date) {
+	public BookingDTOimpl(String busId, String customerId, LocalDateTime booking_date, LocalDateTime booked_date, int numberOfTickets) {
 		super();
 		this.busId = busId;
 		this.customerId = customerId;
 		this.booking_date = booking_date;
 		this.booked_date = booked_date;
 		this.currentdate = () -> LocalDateTime.now();
+		this.numberOfTickets= numberOfTickets;
 	}
 	public String getBusId() {
 		return busId;
@@ -48,10 +50,16 @@ public class BookingDTOimpl implements BookingDTO {
 	public void setCurrentdate(Supplier<LocalDateTime> currentdate) {
 		this.currentdate = currentdate;
 	}
+	public int getNumberOfTickets() {
+		return numberOfTickets;
+	}
+	public void setNumberOfTickets(int numberOfTickets) {
+		this.numberOfTickets = numberOfTickets;
+	}
 	@Override
 	public String toString() {
 		return "Booking:- bus id = " + busId + ", customer id = " + customerId + ", booking date = " + booking_date
-				+ ", booked on = " + booked_date; //+ ", currentdate=" + currentdate + "";
+				+ ", booked on = " + booked_date +", number of tickets = "+ numberOfTickets; //+ ", currentdate=" + currentdate + "";
 	}
 	
 	
