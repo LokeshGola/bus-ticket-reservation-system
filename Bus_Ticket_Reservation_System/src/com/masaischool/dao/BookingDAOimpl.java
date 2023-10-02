@@ -190,7 +190,7 @@ public class BookingDAOimpl implements BookingDAO {
 		return list;
 	}
 	@Override
-	public void bookTicket(ScheduleDTO schDto, String date , int numberOfTickets) throws SomethingWentWrongException, NoRecordFoundException {
+	public int bookTicket(ScheduleDTO schDto, String date , int numberOfTickets) throws SomethingWentWrongException, NoRecordFoundException {
 		Connection con = null;
 		try {
 			//finding the bus for the given date and schedule;
@@ -248,8 +248,19 @@ public class BookingDAOimpl implements BookingDAO {
 			ps.setInt(2, busId);
 			ps.executeUpdate();
 			
+			//code to take and return the booking Id;
+			query = "SELECT id FROM booking order by id DESC Limit 1";
+			ps= con.prepareStatement(query);
+			rs= ps.executeQuery();
+			if(DBUtils.isResultSetEmpty(rs)) {
+				throw new NoRecordFoundException("No booking found. ");
+			}
+			rs.next();
+			int booking_id = rs.getInt(1);
+			return booking_id;
+			
 		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 			throw new SomethingWentWrongException("unable to book ticket.");
 		}finally {
 			try {
@@ -258,6 +269,50 @@ public class BookingDAOimpl implements BookingDAO {
 //				e.printStackTrace();
 			}
 		}
+	}
+	
+	@Override
+	public boolean cancelTicket(int booking_id) throws SomethingWentWrongException, NoRecordFoundException {
+		Connection con= null;
+		try {
+			//code to cancel the booking;
+			con = DBUtils.getConnectionToDatabase();
+			String query = "Update booking set is_cancelled = 1 where id = ? AND is_cancelled = 0 ";
+			PreparedStatement ps = con.prepareStatement(query);
+			ps.setInt(1, booking_id);
+			int rowsImpacted = ps.executeUpdate();
+			if(rowsImpacted==0) {
+				//if the booking is already cancelled but customer tries to cancel it again then it will throw an exception "Booking already cancelled" 
+				//and it will not allow the customer to cancel the booking again;
+				throw new NoRecordFoundException("Booking already cancelled/booking not found with id: "+booking_id);
+			}
+			
+			//code to take the bus id and number_of_tickets from booking table;
+			query = "SELECT bus_id, number_of_tickets FROM booking WHERE id = ? "; // here we don't need to write the condition "is_cancelled = 0" because we have used if condition just above;
+			ps = con.prepareStatement(query);
+			ps.setInt(1, booking_id);
+			ResultSet rs = ps.executeQuery();
+			if(DBUtils.isResultSetEmpty(rs)) {
+				throw new NoRecordFoundException("No record found");
+			}
+			rs.next();
+			int busId = rs.getInt(1);
+			int number_of_tickets = rs.getInt(2); 
+			
+			// code to increase the number of available seats in bus table;
+			int number_of_seats = number_of_tickets;
+			query = "Update bus set available_seats = available_seats + ? WHERE id = ? AND is_delete = 0 ";
+			ps = con.prepareStatement(query);
+			ps.setInt(1, number_of_seats);
+			ps.setInt(2, busId);
+			ps.executeUpdate();
+			return true;
+			
+		}catch(ClassNotFoundException | SQLException e) {
+			throw new SomethingWentWrongException("unable to cancel the booking");
+			
+		}
+
 	}
 	
 	@Override
@@ -284,7 +339,7 @@ public class BookingDAOimpl implements BookingDAO {
 				list.add(busBookDto);
 			}
 		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 			throw new SomethingWentWrongException("unable to get booking history.");
 		}finally {
 			try {
@@ -295,5 +350,6 @@ public class BookingDAOimpl implements BookingDAO {
 		}
 		return list;
 	}
+
 	
 }

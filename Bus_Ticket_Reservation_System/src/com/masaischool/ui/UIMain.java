@@ -131,10 +131,11 @@ public class UIMain {
 	public static void main(String[] args) {
 		Scanner sc= new Scanner(System.in);
 		System.out.println("\n");
-		System.out.println("  ============================================================");
-		System.out.println("  ((     Welcome to Atlantic Express Bus Reservation...!    ((");
-		System.out.println("  ))                                                        ))");
-		System.out.println("  ============================================================");
+		System.out.println("  =============================================================");
+		System.out.println("  ((                                                         )) ");
+		System.out.println("   ))     Welcome to Atlantic Express Bus Reservation...!   (( ");
+		System.out.println("  ((                                                         ))");
+		System.out.println("  =============================================================");
 		String choice = null;
 		do {
 			System.out.println("  ==============================");

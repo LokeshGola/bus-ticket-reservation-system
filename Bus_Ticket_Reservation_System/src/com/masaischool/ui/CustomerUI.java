@@ -125,8 +125,8 @@ public class CustomerUI {
 		BusDTO busDto = new BusDTOimpl(null,null,null,busNumber, 0); 
 		ScheduleDTO schDto = new ScheduleDTOimpl(source, dest, null, null, busDto);
 		try {
-			bookDao.bookTicket(schDto, bookingDate, numberOfTickets);
-			System.out.println("Ticket booked successfully.");
+			int booking_id = bookDao.bookTicket(schDto, bookingDate, numberOfTickets);
+			System.out.println("Ticket booked successfully. The booking id is: "+booking_id);
 		} catch (SomethingWentWrongException | NoRecordFoundException e) {
 			System.out.println(e.getMessage());
 //			e.printStackTrace();
@@ -142,6 +142,22 @@ public class CustomerUI {
 //	}
 	
 	public static void cancelTicket(Scanner sc) {
+		System.out.println("Enter booking id");
+		int ticket_Id=sc.nextInt();
+		
+//		System.out.println("Enter booking date");
+//		String booking_date=sc.next();
+//		
+//		System.out.println("Enter bus number");
+//		String bus_number=sc.next();
+		
+		BookingDAO bookDao= new BookingDAOimpl();
+		try {
+			bookDao.cancelTicket(ticket_Id);
+			System.out.println("Ticket is cancelled sucessfully with id: "+ticket_Id);
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
 		
 	}
 	public static void updateCustomer(Scanner sc) {

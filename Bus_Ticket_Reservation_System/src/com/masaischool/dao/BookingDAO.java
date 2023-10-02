@@ -16,9 +16,9 @@ public interface BookingDAO {
 	
 //	public void bookTicketByBusNumber(String busNumber) throws SomethingWentWrongException ,NoRecordFoundException;
 	public List<ScheduleDTO> getSchedule( String date) throws SomethingWentWrongException ,NoRecordFoundException;
-	public void bookTicket(ScheduleDTO schDto, String date, int numberOfTickets) throws SomethingWentWrongException, NoRecordFoundException ;
+	public int bookTicket(ScheduleDTO schDto, String date, int numberOfTickets) throws SomethingWentWrongException, NoRecordFoundException ;
 
 	public List<BusBookingDTO> getBookingHistory() throws SomethingWentWrongException ,NoRecordFoundException;
-//	List<ScheduleDTO> getSchedule(String date) throws SomethingWentWrongException, NoRecordFoundException;
+	public boolean cancelTicket(int booking_id) throws SomethingWentWrongException, NoRecordFoundException;
 	
 }
