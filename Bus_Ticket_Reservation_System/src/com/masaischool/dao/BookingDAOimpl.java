@@ -197,7 +197,6 @@ public class BookingDAOimpl implements BookingDAO {
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setString(1, schDto.getBus().getBusNumber());
 			ps.setString(2, date);
-			
 			ResultSet rs= ps.executeQuery();
 			if(DBUtils.isResultSetEmpty(rs)) {
 				throw new NoRecordFoundException("No bus found for this date.");
@@ -207,7 +206,6 @@ public class BookingDAOimpl implements BookingDAO {
 			int cusId = LoggedInCustomer.loggedInCustomerId;
 			LocalDateTime bookingDate = rs.getTimestamp(2).toLocalDateTime();
 			
-//			String bookingDate = rs.getString(2);
 			
 			//code for checking that available seats are >= number Of Tickets applied;
 			query = "SELECT bus.available_seats FROM bus INNER JOIN schedule S ON bus.id = S.bus_id AND bus_number = ? AND DATE(departure_time) = ? AND bus.is_delete = 0 AND S.is_delete = 0 ";
