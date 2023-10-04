@@ -1,7 +1,7 @@
 # Bus-Ticket-Reservation-System
 ![Atlantic express](https://user-images.githubusercontent.com/112959514/229585589-de349e8d-7d6c-4bef-ac4c-9c05b93dfafe.png)
 
-It is a system that can help you reserve a bus ticket whenever you plan for trip to anywhere. It is a project done by me in just 4 days in Masai. It is a solo project.
+It is a system that can help you reserve a bus ticket whenever you plan a trip anywhere. It is a project done by me in just 4 days in Masai. It is a solo project.
 
 # Tech Stack & Tools
 - java
@@ -30,7 +30,7 @@ It is a system that can help you reserve a bus ticket whenever you plan for trip
   - Logout
 
  The roles of the Passenger are:
-  - Passengers can sign-up.
+  - Passengers can sign up.
   - Login to his account
   - Passengers can see a list of all buses in operation.
   - Passengers can book tickets by selecting the bus number.   
@@ -43,9 +43,10 @@ It is a system that can help you reserve a bus ticket whenever you plan for trip
 
 # ER Diagram
 
-![ER- Diagram (bus reservation system)](https://user-images.githubusercontent.com/112959514/229482530-4cd8998b-7856-41e9-a869-dfc1c79c0290.png)
-
+<!--![ER- Diagram (bus reservation system)](https://user-images.githubusercontent.com/112959514/229482530-4cd8998b-7856-41e9-a869-dfc1c79c0290.png) -->
+![er-diagram-2](https://github.com/LokeshGola/bus-ticket-reservation-system/assets/112959514/ad9b39bf-dc7c-44e8-8ae5-1424eb5ac1c3)
 <!-- portfolio link -->
 <a href="https://lokeshgola.github.io/">Portfolio</a>
+
 
 
